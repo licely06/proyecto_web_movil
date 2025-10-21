@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Sabor Peruano - App Móvil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding-bottom: 70px;
+            overflow-x: hidden;
+        }
+
+        /* Header Móvil */
+        .mobile-header {
+            background: linear-gradient(135deg, #c9302c 0%, #e74c3c 100%);
+            color: white;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-mobile {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .menu-icon {
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Hero Móvil */
+        .hero-mobile {
+            margin-top: 60px;
+            background: linear-gradient(135deg, #c9302c 0%, #e74c3c 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .hero-mobile h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-mobile p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Categorías */
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn.active {
+            background: #c9302c;
+            color: white;
+        }
+
+        /* Contenedor Principal */
+        .container {
+            padding: 1rem;
+        }
+
+        /* Tarjetas de Menú */
+        .menu-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card-image {
+            height: 180px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            background: #c9302c;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-btn:active {
+            transform: scale(0.95);
+            background: #a02622;
+        }
+
+        /* Sección Destacada */
+        .featured {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .featured h2 {
+            color: #c9302c;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .featured-content {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .featured-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .featured-item {
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .featured-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 0.5rem;
+        }
+
+        .featured-name {
+            font-size: 0.9rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Navegación Inferior */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.8rem 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #c9302c;
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Carrito flotante */
+        .cart-float {
+            position: fixed;
+            bottom: 85px;
+            right: 20px;
+            background: #c9302c;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cart-float:active {
+            transform: scale(0.9);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #27ae60;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: flex-end;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            border-radius: 20px 20px 0 0;
+            padding: 1.5rem;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .close-btn {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #c9302c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive ajustes */
+        @media (min-width: 768px) {
+            body {
+                max-width: 480px;
+                margin: 0 auto;
+                box-shadow: 0 0 30px rgba(0,0,0,0.2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="mobile-header">
+        <div class="header-content">
+            <div class="logo-mobile">🍽️ Sabor Peruano</div>
+            <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-mobile">
+        <h1>Bienvenido</h1>
+        <p>La mejor comida peruana a tu alcance</p>
+    </section>
+
+    <!-- Categorías -->
+    <div class="categories">
+        <button class="category-btn active" onclick="filterCategory('todos')">🍽️ Todos</button>
+        <button class="category-btn" onclick="filterCategory('entradas')">🥗 Entradas</button>
+        <button class="category-btn" onclick="filterCategory('principales')">🍖 Principales</button>
+        <button class="category-btn" onclick="filterCategory('postres')">🍰 Postres</button>
+        <button class="category-btn" onclick="filterCategory('bebidas')">🥤 Bebidas</button>
+    </div>
+
+    <!-- Contenedor Principal -->
+    <div class="container">
+        <!-- Destacados -->
+        <div class="featured">
+            <h2>⭐ Platos Destacados</h2>
+            <div class="featured-content">
+                <div class="featured-item">
+                    <div class="featured-icon">🍤</div>
+                    <div class="featured-name">Ceviche</div>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-icon">🍗</div>
+                    <div class="featured-name">Lomo Saltado</div>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-icon">🍲</div>
+                    <div class="featured-name">Ají de Gallina</div>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-icon">🥘</div>
+                    <div class="featured-name">Arroz con Mariscos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Cards -->
+        <div class="menu-cards">
+            <div class="card">
+                <div class="card-image">🍤</div>
+                <div class="card-content">
+                    <div class="card-title">Ceviche Clásico</div>
+                    <div class="card-description">Pescado fresco marinado en limón con cebolla morada, ají limo y cilantro.</div>
+                    <div class="card-footer">
+                        <div class="price">S/ 35.00</div>
+                        <button class="add-btn" onclick="addToCart('Ceviche Clásico', 35)">Agregar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🍗</div>
+                <div class="card-content">
+                    <div class="card-title">Lomo Saltado</div>
+                    <div class="card-description">Carne salteada con cebolla, tomate y papas fritas. Servido con arroz.</div>
+                    <div class="card-footer">
+                        <div class="price">S/ 28.00</div>
+                        <button class="add-btn" onclick="addToCart('Lomo Saltado', 28)">Agregar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🍲</div>
+                <div class="card-content">
+                    <div class="card-title">Ají de Gallina</div>
+                    <div class="card-description">Cremoso guiso de pollo con salsa de ají amarillo y nueces.</div>
+                    <div class="card-footer">
+                        <div class="price">S/ 25.00</div>
+                        <button class="add-btn" onclick="addToCart('Ají de Gallina', 25)">Agregar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🥘</div>
+                <div class="card-content">
+                    <div class="card-title">Arroz con Mariscos</div>
+                    <div class="card-description">Delicioso arroz preparado con mariscos frescos y especias.</div>
+                    <div class="card-footer">
+                        <div class="price">S/ 32.00</div>
+                        <button class="add-btn" onclick="addToCart('Arroz con Mariscos', 32)">Agregar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🍛</div>
+                <div class="card-content">
+                    <div class="card-title">Causa Limeña</div>
+                    <div class="card-description">Papa amarilla rellena de pollo o atún con mayonesa.</div>
+                    <div class="card-footer">
+                        <div class="price">S/ 22.00</div>
+                        <button class="add-btn" onclick="addToCart('Causa Limeña', 22)">Agregar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🥩</div>
+                <div class="card-content">
+                    <div class="card-title">Anticuchos</div>
+                    <div class="card-description">Brochetas de corazón marinadas y asadas a la parrilla.</div>
+                    <div class="card-footer">
+                        <div class="price">S/ 20.00</div>
+                        <button class="add-btn" onclick="addToCart('Anticuchos', 20)">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrito Flotante -->
+    <div class="cart-float" onclick="openCart()">
+        🛒
+        <span class="cart-badge" id="cartCount">0</span>
+    </div>
+
+    <!-- Navegación Inferior -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span>Inicio</span>
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">🔍</span>
+            <span>Buscar</span>
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">❤️</span>
+            <span>Favoritos</span>
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <!-- Modal Carrito -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">🛒 Mi Pedido</div>
+                <div class="close-btn" onclick="closeCart()">&times;</div>
+            </div>
+            <div id="cartItems"></div>
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 2px solid #eee;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <strong style="font-size: 1.2rem;">Total:</strong>
+                    <strong style="font-size: 1.5rem; color: #27ae60;" id="cartTotal">S/ 0.00</strong>
+                </div>
+                <button class="add-btn" style="width: 100%; padding: 1rem;" onclick="checkout()">Realizar Pedido</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let cartCount = 0;
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            cartCount++;
+            document.getElementById('cartCount').textContent = cartCount;
+            
+            // Animación de feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Agregado';
+            btn.style.background = '#27ae60';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#c9302c';
+            }, 1000);
+        }
+
+        function openCart() {
+            updateCartDisplay();
+            document.getElementById('cartModal').classList.add('show');
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.remove('show');
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Tu carrito está vacío</p>';
+                cartTotal.textContent = 'S/ 0.00';
+                return;
+            }
+            
+            let total = 0;
+            let html = '';
+            
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div style="display: flex; justify-content: space-between; padding: 0.8rem 0; border-bottom: 1px solid #eee;">
+                        <div>
+                            <strong>${item.name}</strong>
+                            <div style="color: #27ae60; font-weight: bold;">S/ ${item.price.toFixed(2)}</div>
+                        </div>
+                        <button onclick="removeFromCart(${index})" style="background: #e74c3c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Eliminar</button>
+                    </div>
+                `;
+            });
+            
+            cartItems.innerHTML = html;
+            cartTotal.textContent = `S/ ${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            cartCount--;
+            document.getElementById('cartCount').textContent = cartCount;
+            updateCartDisplay();
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+            alert('¡Pedido realizado con éxito! Total: S/ ' + cart.reduce((sum, item) => sum + item.price, 0).toFixed(2));
+            cart = [];
+            cartCount = 0;
+            document.getElementById('cartCount').textContent = '0';
+            closeCart();
+        }
+
+        function filterCategory(category) {
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            alert('Filtro: ' + category);
+        }
+
+        function toggleMenu() {
+            alert('Menú de navegación');
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('cartModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCart();
+            }
+        });
+
+        // Navegación inferior
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
